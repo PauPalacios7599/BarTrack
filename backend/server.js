@@ -3,44 +3,40 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const connectDB = require('./config/db')
 
-// 📌 Importar rutas
-const productRoutes = require('./routes/product.routes')
-
-// Cargar variables de entorno
+// 📌 Cargar variables de entorno
 dotenv.config()
 
-// Conectar a MongoDB
+// 📌 Conectar a MongoDB
 connectDB()
 
-// Inicializar la app de Express
+// 📌 Inicializar app
 const app = express()
 
-// Middlewares
+// 📌 Middlewares
 app.use(cors())
 app.use(express.json())
 
-// Rutas
-app.use('/api/products', productRoutes)
+// 📌 Importar rutas
+const productRoutes = require('./routes/product.routes')
+const movementRoutes = require('./routes/movement.routes')
+const authRoutes = require('./routes/auth.routes')
+const recountRoutes = require('./routes/recount.routes')
+const stockRoutes = require('./routes/stock.routes')
 
-// Ruta de prueba
+// 📌 Usar rutas
+app.use('/api/products', productRoutes)
+app.use('/api/movements', movementRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/recounts', recountRoutes)
+app.use('/api/stock', stockRoutes)
+
+// 📌 Ruta raíz de prueba
 app.get('/', (req, res) => {
   res.send('🎉 API BarTrack funcionando')
 })
 
-// Levantar servidor
+// 📌 Levantar servidor
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`🚀 Servidor funcionando en http://localhost:${PORT}`)
 })
-
-const movementRoutes = require('./routes/movement.routes')
-app.use('/api/movements', movementRoutes)
-
-const authRoutes = require('./routes/auth.routes')
-app.use('/api/auth', authRoutes)
-
-const recountRoutes = require('./routes/recount.routes')
-app.use('/api/recounts', recountRoutes)
-
-const stockRoutes = require('./routes/stock.routes')
-app.use('/api/stock', stockRoutes)
