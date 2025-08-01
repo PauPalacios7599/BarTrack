@@ -6,6 +6,8 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate()
 
+  const usuario = JSON.parse(localStorage.getItem('usuario'))
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('usuario')
@@ -13,7 +15,7 @@ const Sidebar = () => {
   }
 
   const handleLinkClick = () => {
-    setIsOpen(false) // Cierra el sidebar al hacer clic en un enlace
+    setIsOpen(false)
   }
 
   return (
@@ -32,7 +34,14 @@ const Sidebar = () => {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div>
-          <h2 className='text-2xl font-bold mb-6 text-center'>BarTrack</h2>
+          <h2 className='text-2xl font-bold mb-4 text-center'>BarTrack</h2>
+
+          {usuario && (
+            <p className='text-center mb-4 text-sm text-sky-100'>
+              👋 Hola, <span className='font-semibold'>{usuario.nombre}</span>
+            </p>
+          )}
+
           <nav className='flex flex-col gap-4'>
             <Link
               to='/dashboard'
@@ -70,7 +79,7 @@ const Sidebar = () => {
             handleLogout()
             setIsOpen(false)
           }}
-          className='mt-6 bg-rose-300 hover:bg-rose-400 text-white py-2 rounded'
+          className='mt-6 bg-rose-300 hover:bg-rose-400 text-white py-2 px-4 rounded'
         >
           Cerrar sesión
         </button>
